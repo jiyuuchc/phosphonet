@@ -57,11 +57,11 @@ pip install -r requirements.txt   # Installs exact, tested versions
 ```bash
 mkdir -p data/
 # 1) STRING physical links v12.0
-wget https://stringdb-static.org/download/protein.physical.links.v12.0/9606.protein.physical.links.full.v12.0.txt.gz -P data/
+wget https://stringdb-downloads.org/download/protein.physical.links.full.v12.0/9606.protein.physical.links.full.v12.0.txt.gz -P data/
 
 # 2) KinPred GPS5 releases
-curl -L -o data/GPS5_2020-02-26_all_matrix.csv "https://zenodo.org/record/4761808/files/GPS5_2020-02-26_all_matrix.csv?download=1"
-curl -L -o data/Phosphorylation_site_dataset.tsv "https://zenodo.org/record/4761808/files/Phosphorylation_site_dataset.tsv?download=1"
+curl -L -o data/GPS5_2020-02-26_all_matrix.csv "https://figshare.com/ndownloader/files/24125156"
+# download the Phosphorylation_site_dataset from my repo
 ```
 
 
@@ -76,15 +76,6 @@ jupyter nbconvert --execute notebooks/build_phos_table.ipynb  --to notebook
 
 By default the executed notebooks are saved next to the originals with the suffix `-out.ipynb`, preserving all cell outputs for inspection.
 
-\### 3.4  One‑liner convenience script (optional)
-
-If you prefer a single command, run the bundled helper:
-
-```bash
-bash scripts/run_preprocessing.sh   # wraps the three nbconvert calls above
-```
-
-The script simply checks for input files and then drives each notebook; feel free to inspect or modify it.
 
 \### 3.5  Expected artifacts
 
@@ -150,6 +141,5 @@ This repository is released under the MIT License (see `LICENSE`).  The raw data
 
 * **nbconvert fails with `MemoryError`** – decrease `walk_length` or `num_walks` in the node2vec grid.
 * **No such file or directory: `...emb.txt`** – confirm you ran `Node2Vec_training.ipynb` successfully before `build_phos_table.ipynb`.
-* **KeyError when querying `grp_id_to_embedding.json`** – the site may not be present in KinPred or STRING; verify the `SITE_GRP_ID` exists in `Phosphorylation_site_dataset.tsv`.
 
 If you hit something obscure, open an issue or drop me an email.
