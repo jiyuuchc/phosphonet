@@ -11,9 +11,7 @@ This repository contains three Jupyter pipelines that take raw public datasets a
 ├── data/               # raw input datasets (not version‑controlled)
 ├── notebooks/          # the three Jupyter notebooks
 ├── results/            # node2vec outputs & final JSON lookup
-├── scripts/            # optional helper bash script (see §3.4)
-├── README.md           # this file
-└── requirements.txt    # exact package versions
+└──  README.md           # this file
 ```
 
 ---
@@ -34,7 +32,7 @@ This repository contains three Jupyter pipelines that take raw public datasets a
 | ----------------------------------------------- | -------------------------------- | --------------------------------------------------------------------------- |
 | `9606.protein.physical.links.full.v12.0.txt.gz` | [STRING](https://string-db.org/) | Human physical interactions; we keep edges with **`combined_score ≥ 200`**. |
 | `GPS5_2020-02-26_all_matrix.csv`                | KinPred GPS5 release             | 71 tyrosine‑kinase “Proba” scores per potential phospho‑site.               |
-| `Phosphorylation_site_dataset.tsv`              | KinPred (auxiliary)              | Maps `SITE_GRP_ID` → Ensembl protein IDs.                                   |
+| `Phosphorylation_site_dataset.tsv`              | inxluded in this repo            | Maps `SITE_GRP_ID` → Ensembl protein IDs.                                   |
 
 Download the raw files, then place or symlink them under `data/` (or edit the paths at the top of each notebook).
 
@@ -77,13 +75,14 @@ jupyter nbconvert --execute notebooks/build_phos_table.ipynb  --to notebook
 By default the executed notebooks are saved next to the originals with the suffix `-out.ipynb`, preserving all cell outputs for inspection.
 
 
-\### 3.5  Expected artifacts
+\### 3.4  Expected artifacts
 
-| File / folder                  | Produced by            | Description                                        |
-| ------------------------------ | ---------------------- | -------------------------------------------------- |
-| `results/ppi_node2vec.emb.txt` | **Node2Vec\_training** | 128‑dim text embeddings ("word2vec" format).       |
-| `results/ppi_node2vec.kv`      | **Node2Vec\_training** | Binary keyed‑vectors (gensim).                     |
-| `grp_id_to_embedding.json`     | **build\_phos\_table** | Final 199‑dim lookup table keyed by `SITE_GRP_ID`. |
+| File / folder                  | Produced by            | Description                                                                 |
+| ------------------------------ | ---------------------- | --------------------------------------------------------------------------- |
+| `results/ppi_node2vec.emb.txt` | **Node2Vec\_training** | 128‑dim text embeddings ("word2vec" format).                                |
+| `results/ppi_node2vec.kv`      | **Node2Vec\_training** | Binary keyed‑vectors (gensim).                                              |
+| `grp_id_to_embedding.json`     | **build\_phos\_table** | Final 199‑dim lookup table keyed by `SITE_GRP_ID`.                          |
+| `idmapping_2025_06_12.tsv`     | included in this repo  | generated on https://www.uniprot.org/id-mapping with ppi_node2vec.emb.txt   |
 
 ---
 
@@ -131,13 +130,7 @@ bash scripts/run_preprocessing.sh   # or follow §3.3
 
 ---
 
-## 8  License
-
-This repository is released under the MIT License (see `LICENSE`).  The raw datasets remain under their respective upstream licenses.
-
----
-
-## 9  Troubleshooting
+## 8  Troubleshooting
 
 * **nbconvert fails with `MemoryError`** – decrease `walk_length` or `num_walks` in the node2vec grid.
 * **No such file or directory: `...emb.txt`** – confirm you ran `Node2Vec_training.ipynb` successfully before `build_phos_table.ipynb`.
